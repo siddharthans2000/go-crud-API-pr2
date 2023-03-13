@@ -54,8 +54,8 @@ func createMovie(w http.ResponseWriter,r *http.Request){
 	w.Header().Set("Content-Type","application/json")
 	var movie Movie
 	_=json.NewDecoder(r.Body).Decode(&movie)                    // stores the movie details from the request in a movie variable
-	movie.ID=strconv.Itoa(rand.Intn(100000000))
-	movies=append(movies,movie)
+	movie.ID=strconv.Itoa(rand.Intn(100000000))                 // assing a ramdon integer as ID
+	movies=append(movies,movie)                                
 	json.NewEncoder(w).Encode(movie)
 }
 func updateMovie(w http.ResponseWriter,r *http.Request){
@@ -63,11 +63,11 @@ func updateMovie(w http.ResponseWriter,r *http.Request){
 	param:=mux.Vars(r)
 	for index,data:=range movies{
 		if data.ID==param["id"] {
-			movies=append(movies[:index],movies[index+1:]...)
+			movies=append(movies[:index],movies[index+1:]...)               // remove the value at that index
 			var movie Movie
-			_=json.NewDecoder(r.Body).Decode(&movie)
+			_=json.NewDecoder(r.Body).Decode(&movie)                       // store the movie details from the body of the request to movie variable
 			movie.ID=param["id"]
-			movies=append(movies,movie)
+			movies=append(movies,movie)                                        // add the movie details in the movie list
 			json.NewEncoder(w).Encode(movie)
 			return
 		}
